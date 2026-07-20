@@ -52,7 +52,10 @@ async def i_dont_like_sticker(message: Message):
 @router.message(F.text, F.chat.type.in_({ChatType.SUPERGROUP, ChatType.GROUP, ChatType.PRIVATE}))
 async def i_can_check_your_message(message: Message):
     
-    if message.from_user.is_bot and not message.reply_to_message:
+    if message.sender_chat and message.sender_chat.type == ChatType.CHANNEL:
+        return
+    
+    if message.from_user.is_bot:
         return
     
     try:
