@@ -2,12 +2,16 @@ from config import client
 from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.enums import ChatType
+from aiogram.filters import CommandStart
 
 router = Router()
 
 
 @router.message(F.sticker, F.chat.type.in_({ChatType.SUPERGROUP, ChatType.GROUP, ChatType.PRIVATE}))
 async def i_dont_like_sticker(message: Message):
+    
+    if message.sender_chat and message.sender_chat.type == ChatType.CHANNEL:
+        return
     
     if message.from_user.is_bot:
         return
@@ -111,3 +115,40 @@ async def i_can_check_your_message(message: Message):
             "Извини, мой ИИ-мозг временно перегрелся!\n"
             "Попробуй ещё раз или напиши что-то попроще."
         )
+        
+@router.message(CommandStart()) 
+async def start(message: Message):
+    
+    if message.from_user.is_bot:
+        return
+    
+    if message.sender_chat and message.sender_chat.type == ChatType.CHANNEL:
+        return
+    
+    text = """
+    👋 Привет! Я — MatershinikBot. 
+
+    Функционал:
+
+    1. Высмеивание стикеров
+    Отправьте стикер в чат или личные сообщения — бот сгенерирует язвительный ответ.
+
+    2. Защита создателя
+    Бот анализирует эмоциональный окрас сообщений. Позитивные и нейтральные сообщения получают дружелюбный ответ. Негативные и критические — аргументированный отпор с защитой создателя.
+
+    3. Работа в комментариях
+    Бот обрабатывает сообщения в группах и комментарии к постам канала. Сообщения в канале игнорируются.
+
+    4. Анализ контекста
+    Бот определяет эмоциональный тон сообщения и адаптирует стиль ответа.
+    
+    Бот работает 24/7 на Railway.
+    Версия: 1.2.0
+    Обновлено: 20.07.2026
+    
+    Контакт создателя: @aniwave13
+    """
+    
+    
+    await message.answer(text)
+    
