@@ -21,7 +21,7 @@ async def send_donation_menu(message: Message):
     )
 
 # ПОЖЕРТВОВАНИЕ ЧЕРЕЗ ЗВЕЗДЫ
-@router.callback_query('donate_stars')
+@router.callback_query(F.data == 'donate_stars')
 async def donate_stars(callback : CallbackQuery):
     await callback.answer()
     
