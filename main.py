@@ -17,7 +17,7 @@ if not BOT_TOKEN:
 async def main() -> None:
     bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher() 
-    dp.include_router(router, payment_router)
+    dp.include_routers(router, payment_router)
     await dp.start_polling(bot)
     
 if __name__ == '__main__':
