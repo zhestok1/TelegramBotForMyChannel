@@ -2,11 +2,19 @@ from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery, LabeledPrice, PreCheckoutQuery, SuccessfulPayment
 import app.keyboard as kb
+import logging
+
+logger = logging.getLogger(__name__)
 
 router = Router()
 
+@router.message(Command("test"))
+async def test_command(message: Message):
+    await message.answer("✅ /test работает! Если ты это видишь — бот работает.")
+
 @router.message(Command('donate'))
 async def send_donation_menu(message: Message):
+    logger.info("🔴🔴🔴 /donate СРАБОТАЛ!")
     
     if message.from_user.is_bot:
         return
