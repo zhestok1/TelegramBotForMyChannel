@@ -4,12 +4,13 @@ from aiogram.types import Message, CallbackQuery, LabeledPrice, PreCheckoutQuery
 import app.keyboard as kb
 from aiogram.enums import ChatType
 
+
+
 router = Router()
 
 
 @router.message(Command('donate'))
 async def send_donation_menu(message: Message):
-    
     if message.from_user.is_bot:
         return
     
